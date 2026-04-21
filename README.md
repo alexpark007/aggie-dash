@@ -1,14 +1,16 @@
-# Davis Delivers 🚴
+# Aggie Dash 🚴
 
 > **Local restaurants. Student drivers. Community first.**
 
 A full-stack food delivery platform for Downtown Davis, CA — a community alternative to Uber Eats where local restaurants pay lower fees and UC Davis students get hired as delivery drivers on scheduled shifts.
 
+**Live site:** https://aggie-dash.vercel.app
+
 ---
 
 ## Tech Stack
 
-- **Next.js 14** (App Router, TypeScript)
+- **Next.js 16** (App Router, TypeScript, Turbopack)
 - **Supabase** (auth, PostgreSQL database, real-time subscriptions)
 - **Tailwind CSS** (UC Davis Navy + Gold theme)
 - **Stripe** (customer payments, restaurant subscriptions)
@@ -27,12 +29,22 @@ A full-stack food delivery platform for Downtown Davis, CA — a community alter
 
 ---
 
+## Business Model
+
+| Revenue source | Amount |
+|---------------|--------|
+| Restaurant subscription | **$150/month flat** — no per-order % |
+| Customer delivery fee | **$3.99 flat** per order |
+| Driver pay | **Hourly rate** (set by admin, default $18/hr) |
+
+---
+
 ## Setup Instructions
 
 ### 1. Clone and Install
 
 ```bash
-git clone <repo>
+git clone https://github.com/alexpark007/aggie-dash.git
 cd aggie-dash
 npm install
 ```
@@ -48,6 +60,7 @@ npm install
 3. **Run the database migration:**
    - Go to **SQL Editor** in your Supabase dashboard
    - Paste and run the contents of `supabase/migrations/001_initial_schema.sql`
+   - If it fails, run it in chunks (the editor has a size limit)
 
 4. **Enable Realtime** for the `orders` and `deliveries` tables:
    - Go to **Database → Replication**
@@ -60,12 +73,12 @@ npm install
 
 ### 3. Create Admin User
 
-1. Create a user in Supabase Auth → Users with your email
+1. Create a user in Supabase **Auth → Users** with your email
 2. Run this SQL in the SQL Editor:
    ```sql
    UPDATE public.profiles SET role = 'admin' WHERE id = '<your-user-uuid>';
    ```
-3. This user can now log in at `/admin-login`
+3. Log in at `/admin-login`
 
 ### 4. Set Up Stripe
 
@@ -75,17 +88,15 @@ npm install
    - Secret key → `STRIPE_SECRET_KEY`
 
 3. **Create the restaurant subscription product:**
-   - Go to Products → Add Product
-   - Name: "Davis Delivers Restaurant Subscription"
+   - Go to **Products → Add Product**
+   - Name: "Aggie Dash Restaurant Subscription"
    - Price: $150.00/month (recurring)
    - Copy the Price ID → `STRIPE_RESTAURANT_PRICE_ID`
 
 4. **Set up the webhook:**
-   - Go to Developers → Webhooks → Add Endpoint
-   - URL: `https://your-domain.com/api/stripe/webhook`
-   - Events to listen for:
-     - `payment_intent.succeeded`
-     - `customer.subscription.deleted`
+   - Go to **Developers → Webhooks → Add Endpoint**
+   - URL: `https://aggie-dash.vercel.app/api/stripe/webhook`
+   - Events: `payment_intent.succeeded`, `customer.subscription.deleted`
    - Copy the signing secret → `STRIPE_WEBHOOK_SECRET`
 
    For local development, use [Stripe CLI](https://stripe.com/docs/stripe-cli):
@@ -95,25 +106,25 @@ npm install
 
 ### 5. Environment Variables
 
-Fill in `.env.local` with all values:
+Create a `.env.local` file:
 
 ```env
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGc...
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGc...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_...
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_...
 
 # Stripe
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
-STRIPE_SECRET_KEY=sk_live_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_RESTAURANT_PRICE_ID=price_...
 
 # App URL
-NEXT_PUBLIC_APP_URL=https://your-domain.com
+NEXT_PUBLIC_APP_URL=https://aggie-dash.vercel.app
 ```
 
-### 6. Run the App
+### 6. Run Locally
 
 ```bash
 npm run dev
@@ -123,20 +134,23 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Delivery Zone
+## Deployment
 
-Davis Delivers only serves **Davis, CA 95616** (Downtown Davis + UC Davis campus).
-Delivery addresses are validated against zip codes 95616/95617/95618.
+Hosted on **Vercel** at https://aggie-dash.vercel.app
+
+To redeploy after changes:
+```bash
+git add -A && git commit -m "your message" && git push && vercel --prod
+```
+
+Vercel project: [vercel.com/aggiedash/aggie-dash](https://vercel.com/aggiedash/aggie-dash)
 
 ---
 
-## Business Model
+## Delivery Zone
 
-| Revenue source | Amount |
-|---------------|--------|
-| Restaurant subscription | **$150/month flat** — no per-order % |
-| Customer delivery fee | **$3.99 flat** per order |
-| Driver pay | **Hourly rate** (set by admin, default $18/hr) |
+Aggie Dash only serves **Davis, CA 95616** (Downtown Davis + UC Davis campus).
+Delivery addresses are validated against zip codes 95616/95617/95618.
 
 ---
 
@@ -157,36 +171,15 @@ platform_settings — global settings (hourly rate, delivery fee) — singleton 
 
 ---
 
-## Key Features
+## Key Technical Notes
 
-### Customer Site (`/`)
-- Browse all active Downtown Davis restaurants
-- Mobile-first menu with add-to-cart
-- Cart persisted in localStorage
-- Stripe Checkout with tip selector
-- Davis-only address validation
-- Real-time order tracking via Supabase subscriptions
-
-### Restaurant Portal (`/restaurant`)
-- Self-service onboarding (admin approves)
-- Full menu builder (add/edit/delete items, toggle availability)
-- Real-time order dashboard with status updates
-- 7-day analytics (revenue, order count, popular items)
-- Flat $150/month Stripe subscription (no per-order %)
-
-### Driver App (`/driver`)
-- UCD student application form (requires @ucdavis.edu email)
-- Admin approval workflow
-- View scheduled shifts
-- Active delivery workflow: pick up → deliver
-- Earnings summary per shift
-
-### Admin Portal (`/admin`)
-- Platform revenue dashboard
-- Approve/reject restaurants and drivers
-- Schedule driver shifts with custom hourly rate
-- View all orders across the platform
-- Configure global platform settings
+- **Admin login** is at `/admin-login` (not `/admin/login`) — kept outside the admin layout to avoid SSR issues
+- **Supabase client** (`createClient()`) must only be called inside `useEffect` or event handlers, never at component body level during SSR
+- **All pages** have `export const dynamic = 'force-dynamic'` since they're auth-dependent
+- **Stripe amounts**: database stores dollars, Stripe API receives cents (× 100)
+- **Cart state** is stored in localStorage via `src/lib/cart.ts`
+- **RLS** is enabled on all tables — see the migration for policies
+- **Real-time** is enabled for `orders` and `deliveries` tables
 
 ---
 
@@ -224,26 +217,3 @@ supabase/
 ├── migrations/             001_initial_schema.sql
 └── seed/                   seed.sql (3 demo restaurants)
 ```
-
----
-
-## Deployment
-
-### Vercel (recommended)
-
-1. Push to GitHub
-2. Import into [vercel.com](https://vercel.com)
-3. Add all environment variables in project settings
-4. Update `NEXT_PUBLIC_APP_URL` to your Vercel URL
-5. Update the Stripe webhook endpoint URL to your production domain
-
----
-
-## Notes
-
-- **Supabase RLS** is enabled on all tables — see the migration for policies
-- **Real-time** is enabled for `orders` and `deliveries` tables
-- Cart state is stored in **localStorage** (no server-side cart needed)
-- All monetary amounts are stored in **dollars** in the database; Stripe receives **cents**
-- The `profiles` table auto-populates via a Postgres trigger on `auth.users` insert
-- Admin route protection is enforced in both middleware and individual page redirects
