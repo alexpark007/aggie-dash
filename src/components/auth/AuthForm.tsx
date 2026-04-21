@@ -62,8 +62,8 @@ export default function AuthForm({ mode, role = 'customer', redirectTo }: Props)
       <CardBody className="space-y-5">
         <div className="text-center">
           <div className="flex items-center justify-center gap-1 mb-3">
-            <span className="text-[#C99700] font-bold text-2xl">Davis</span>
-            <span className="font-bold text-2xl text-[#002855]">Delivers</span>
+            <span className="text-[#C99700] font-bold text-2xl">Aggie</span>
+            <span className="font-bold text-2xl text-[#002855]">Dash</span>
           </div>
           <h1 className="text-xl font-bold text-gray-900">
             {mode === 'login' ? 'Welcome back' : 'Create an account'}
