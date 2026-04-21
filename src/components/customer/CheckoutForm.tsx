@@ -171,7 +171,7 @@ export default function CheckoutForm() {
             {addressValid === false && (
               <div className="mt-2 flex items-start gap-2 text-amber-700 bg-amber-50 p-3 rounded-lg text-sm">
                 <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
-                <span>Davis Delivers only covers Downtown Davis and UC Davis campus (zip code 95616). Please enter a valid Davis address.</span>
+                <span>Aggie Dash only covers Downtown Davis and UC Davis campus (zip code 95616). Please enter a valid Davis address.</span>
               </div>
             )}
             {addressValid === true && (

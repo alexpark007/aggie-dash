@@ -11,7 +11,7 @@ export default function RestaurantLoginPage() {
       <div className="w-full max-w-md space-y-4">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900">Restaurant Portal</h2>
-          <p className="text-gray-500 mt-1 text-sm">Sign in to manage your restaurant on Davis Delivers</p>
+          <p className="text-gray-500 mt-1 text-sm">Sign in to manage your restaurant on Aggie Dash</p>
         </div>
         <Suspense>
           <AuthForm mode="login" role="restaurant" redirectTo="/restaurant/dashboard" />

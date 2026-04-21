@@ -7,8 +7,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[#C99700] font-bold text-xl">Davis</span>
-              <span className="font-bold text-xl">Delivers</span>
+              <span className="text-[#C99700] font-bold text-xl">Aggie</span>
+              <span className="font-bold text-xl">Dash</span>
             </div>
             <p className="text-white/70 text-sm leading-relaxed">
               Local restaurants. Student drivers. Community first.
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-white/10 mt-8 pt-6 text-center text-white/50 text-xs">
-          © {new Date().getFullYear()} Davis Delivers · Downtown Davis Association ·{' '}
+          © {new Date().getFullYear()} Aggie Dash · Downtown Davis Association ·{' '}
           <span className="text-[#C99700]">Powered by the Davis community</span>
         </div>
       </div>

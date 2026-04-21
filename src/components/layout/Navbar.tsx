@@ -36,8 +36,8 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-[#C99700] font-bold text-2xl">Davis</span>
-            <span className="font-bold text-2xl">Delivers</span>
+            <span className="text-[#C99700] font-bold text-2xl">Aggie</span>
+            <span className="font-bold text-2xl">Dash</span>
           </Link>
 
           {/* Desktop nav */}

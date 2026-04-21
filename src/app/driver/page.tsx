@@ -17,7 +17,7 @@ export default function DriverLandingPage() {
             <p className="text-[#C99700] font-semibold mb-2">UC Davis Students</p>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Earn on Your Schedule</h1>
             <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">
-              Join Davis Delivers as a student driver. Hourly pay, flexible shifts, and you&apos;re helping your community.
+              Join Aggie Dash as a student driver. Hourly pay, flexible shifts, and you&apos;re helping your community.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/driver/apply">
@@ -32,7 +32,7 @@ export default function DriverLandingPage() {
 
         {/* Benefits */}
         <div className="max-w-4xl mx-auto px-4 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">Why drive with Davis Delivers?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">Why drive with Aggie Dash?</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {[
               {
