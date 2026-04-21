@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --davis-navy: #002855;
+  --davis-gold: #C99700;
 }
 
 @theme inline {
@@ -12,15 +14,27 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }
